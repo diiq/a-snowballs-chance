@@ -6,12 +6,15 @@
 
 _ = require "lodash"
 fabric = require("fabric").fabric
+deepcopy = require "deepcopy"
 
 canvas = require "../canvas"
 Line = require "../line/Line"
 
 module.exports = class Light
   constructor: (@location) ->
+
+  move: (@location) ->
 
   litPolygon: (blinds) ->
     # Returns the polygon which this light lights.
@@ -37,7 +40,7 @@ module.exports = class Light
 
   visibleFabricPoly: (blinds) ->
     points = @litPolygon(blinds)
-    rects = [new fabric.Polygon points,
+    rects = [new fabric.Polygon deepcopy(points),
       fill: '#fff'
       opacity: .1
 

@@ -5,10 +5,9 @@
 #
 
 fabric = require("fabric").fabric
-
+deepcopy = require "deepcopy"
 _ = require "lodash"
 
-canvas = require "../canvas"
 Line = require "../line/Line"
 
 
@@ -18,8 +17,6 @@ module.exports = class Blind
     @left = Math.min(@pointA.x, @pointB.x)
     @width = Math.abs(@pointA.x - @pointB.x) || 3
     @height = Math.abs(@pointA.y - @pointB.y) || 3
-
-    canvas.add(@fabricObject())
 
   fabricObject: () ->
     rect = new fabric.Rect

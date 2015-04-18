@@ -10,6 +10,8 @@ module.exports = class Line
   intersection: (ray) ->
     # Intersect this line segment with a ray.
     # http://ncase.me/sight-and-light/
+    #if @angle - ray.angle < .01
+    #  return false
 
     T = ((ray.dx * (@y - ray.y) +
           ray.dy * (ray.x - @x)) /
@@ -20,12 +22,15 @@ module.exports = class Line
     if isNaN(rayT)
       rayT = (@y + @dy * T - ray.y) / ray.dy
 
-    if rayT < 0 or T < 0 or T > 1
+    x = @x + @dx * T
+    y = @y + @dy * T
+
+    if rayT < 0 or T < 0 or T > 1 or T > 10000 or isNaN(T) or isNaN(rayT)
       return false
 
     {
-      x: @x + @dx * T,
-      y: @y + @dy * T,
+      x: x
+      y: y
       rayT: rayT
     }
 
@@ -37,11 +42,11 @@ module.exports = class Line
       @pointA,
       @pointB,
       {
-        x: @x + @dx * -.00001,
-        y: @y + @dy * -.00001
+        x: @x + @dx * -.01,
+        y: @y + @dy * -.01
       },
       {
-        x: @x + @dx * 1.00001,
-        y: @y + @dy * 1.00001
+        x: @x + @dx * 1.01,
+        y: @y + @dy * 1.01
       }
     ]

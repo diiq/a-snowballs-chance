@@ -1,10 +1,13 @@
 fabric = require("fabric").fabric
+_ = require "lodash"
+deepcopy = require "deepcopy"
 
 Blind = require "./blind/Blind"
 canvas = require "./canvas"
 Room = require "./room/Room"
 Light = require "./light/Light"
 intersect = require "./polygon/intersect"
+LightHistory = require "./light/LightHistory"
 
 
 blinds = [
@@ -27,28 +30,62 @@ room = new Room(
   {x: 10, y: 10},
   {x: 590, y: 590}
 )
-
-
 blinds = blinds.concat room.walls
 
-l1 = new Light {x: 550, y: 300}
-canvas.add(l1.visibleFabricPoly(blinds))
 
-l2 = new Light {x: 60, y: 180}
-canvas.add(l2.visibleFabricPoly(blinds))
+light = new Light {x: 550, y: 300}
+light.velocity = {x: 0, y: .05}
 
-#l3 = new Light {x: 10, y: 10}
-#canvas.add(l3.visibleFabricPoly(blinds))
+now = -> (new Date()).getTime()
 
-p1 = l1.litPolygon(blinds)
-p2 = l2.litPolygon(blinds)
-#p3 = l3.litPolygon(blinds)
-ps = [p1, p2]
+history = new LightHistory()
+lastStep = now()
+lastPoly = null
 
-ps = intersect(ps)
-for p in ps
-  canvas.add new fabric.Polygon p,
-    fill: "#f00"
-    opacity: .5
+setInterval ->
+  thisStep = now()
+  steps = thisStep - lastStep
 
-canvas.renderAll()
+  # If you change tabs, steps can be a bajillion. Don't let that
+  # happen.
+  if steps > 500
+    #lastStep = thisStep
+    return
+
+  moveLight(steps)
+
+  canvas.clear()
+  showLightHistory()
+  canvas.add light.visibleFabricPoly(blinds)
+  _.each blinds, (b) -> canvas.add(b.fabricObject())
+
+  canvas.renderAll()
+  lastStep = thisStep
+, 50
+
+
+
+moveLight = (steps)->
+  light.move
+    x: light.location.x + light.velocity.x * steps,
+    y: light.location.y + light.velocity.y * steps
+
+  if light.location.y > 500
+    light.velocity = {x: 0, y: -.05}
+  if light.location.y < 100
+    light.velocity = {x: 0, y: .05}
+
+showLightHistory = () ->
+  ps = _.pluck history.polys, "poly"
+  _.each ps, (points) ->
+    canvas.add new fabric.Polygon deepcopy(points),
+      fill: '#f00'
+      opacity: .05
+
+recordLightHistory = () ->
+  history.gc(10000)
+  if lastPoly
+    lastPoly.ended()
+  lastPoly = history.addPoly light.litPolygon(blinds)
+
+setInterval recordLightHistory, 250
