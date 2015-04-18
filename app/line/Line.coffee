@@ -5,6 +5,7 @@ module.exports = class Line
     # Non-normalized derivatives w/ respect to T
     @dx = @pointB.x - @pointA.x
     @dy = @pointB.y - @pointA.y
+    @angle = Math.atan2(@dy, @dx)
 
   intersection: (ray) ->
     # Intersect this line segment with a ray.

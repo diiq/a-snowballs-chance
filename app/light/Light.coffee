@@ -19,6 +19,7 @@ module.exports = class Light
     points = _.flatten _.map lines, (line) -> line.rayCastingPoints()
     console.log points
     rays = _.map points, (point) => new Line @location, point
+    rays = rays.sort (rayA, rayB) -> rayB.angle - rayA.angle
     _.map rays, (ray) ->
       intersections = _.map lines, (line) ->
         line.intersection(ray)
@@ -27,13 +28,9 @@ module.exports = class Light
 
   visibleFabricPoly: (blinds) ->
     points = @visiblePoly(blinds)
-    rects = _.map points, (point) ->
-      new fabric.Rect
-        fill: '#000'
-        left: point.x
-        top: point.y
-        width: 7
-        height: 7
+    rects = [new fabric.Polygon points,
+      fill: '#fff'
+    ]
 
     rects.push(new fabric.Rect
         fill: '#345'
@@ -43,4 +40,5 @@ module.exports = class Light
         height: 5
     )
 
-    new fabric.Group rects
+    new fabric.Group rects,
+      opacity: .5
