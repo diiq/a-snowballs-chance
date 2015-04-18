@@ -3,6 +3,7 @@
 # is made of immobile blinds; some blinds move, or allow the player to
 # move them.
 #
+
 _ = require "lodash"
 fabric = require("fabric").fabric
 
@@ -12,14 +13,22 @@ Line = require "../line/Line"
 module.exports = class Light
   constructor: (@location) ->
 
-  visiblePoly: (blinds) ->
-    console.log blinds
+  litPolygon: (blinds) ->
+    # Returns the polygon which this light lights.
+
+    # Get all line segments
     lines =  _.flatten _.map blinds, (blind) -> blind.lines()
-    console.log lines
+
+    # Get their endpoints
     points = _.flatten _.map lines, (line) -> line.rayCastingPoints()
-    console.log points
+
+    # Make a ray for every endpoint
     rays = _.map points, (point) => new Line @location, point
-    rays = rays.sort (rayA, rayB) -> rayB.angle - rayA.angle
+
+    # Sort 'em clockwise
+    rays = rays.sort (rayA, rayB) -> rayA.angle - rayB.angle
+
+    # Then find the first intersection of every ray
     _.map rays, (ray) ->
       intersections = _.map lines, (line) ->
         line.intersection(ray)
@@ -27,18 +36,19 @@ module.exports = class Light
 
 
   visibleFabricPoly: (blinds) ->
-    points = @visiblePoly(blinds)
+    points = @litPolygon(blinds)
     rects = [new fabric.Polygon points,
       fill: '#fff'
+      opacity: .1
+
     ]
 
     rects.push(new fabric.Rect
-        fill: '#345'
+        fill: '#fff'
         left: @location.x
         top: @location.y
-        width: 5
-        height: 5
+        width: 10
+        height: 10
     )
 
-    new fabric.Group rects,
-      opacity: .5
+    new fabric.Group rects

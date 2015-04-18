@@ -37,11 +37,11 @@ module.exports = class Line
       @pointA,
       @pointB,
       {
-        x: @x + @dx * -.001,
-        y: @y + @dy * -.001
+        x: @x + @dx * -.00001,
+        y: @y + @dy * -.00001
       },
       {
-        x: @x + @dx * 1.001,
-        y: @y + @dy * 1.001
+        x: @x + @dx * 1.00001,
+        y: @y + @dy * 1.00001
       }
     ]

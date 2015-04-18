@@ -1,7 +1,11 @@
+fabric = require("fabric").fabric
+
 Blind = require "./blind/Blind"
 canvas = require "./canvas"
 Room = require "./room/Room"
 Light = require "./light/Light"
+intersect = require "./polygon/intersect"
+
 
 blinds = [
   new Blind(
@@ -27,20 +31,24 @@ room = new Room(
 
 blinds = blinds.concat room.walls
 
-l = new Light {x: 580, y: 300}
-canvas.add(l.visibleFabricPoly(blinds))
+l1 = new Light {x: 550, y: 300}
+canvas.add(l1.visibleFabricPoly(blinds))
 
-l = new Light {x: 580, y: 320}
-canvas.add(l.visibleFabricPoly(blinds))
+l2 = new Light {x: 60, y: 180}
+canvas.add(l2.visibleFabricPoly(blinds))
 
-l = new Light {x: 580, y: 280}
-canvas.add(l.visibleFabricPoly(blinds))
+#l3 = new Light {x: 10, y: 10}
+#canvas.add(l3.visibleFabricPoly(blinds))
 
-l = new Light {x: 580, y: 310}
-canvas.add(l.visibleFabricPoly(blinds))
+p1 = l1.litPolygon(blinds)
+p2 = l2.litPolygon(blinds)
+#p3 = l3.litPolygon(blinds)
+ps = [p1, p2]
 
-l = new Light {x: 580, y: 290}
-canvas.add(l.visibleFabricPoly(blinds))
-
+ps = intersect(ps)
+for p in ps
+  canvas.add new fabric.Polygon p,
+    fill: "#f00"
+    opacity: .5
 
 canvas.renderAll()
