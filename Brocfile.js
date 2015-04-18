@@ -1,5 +1,4 @@
 var browserify = require('broccoli-fast-browserify');
-var karma = require('broccoli-karma-plugin');
 var merge = require('broccoli-merge-trees');
 var noop = require('broccoli-static-compiler');
 var concat = require('broccoli-concat');
@@ -7,7 +6,7 @@ var concat = require('broccoli-concat');
 var coffeescript = require('./tasks/coffee');
 var sass = require('./tasks/sass');
 var BrowserSync = require('./tasks/broccoli-browser-sync');
-
+var broccoliTestem = require('broccoli-testem-plugin');
 
 // JS
 
@@ -29,15 +28,11 @@ var specs = browserify(js, {
   }
 });
 
-specs = karma(specs, {
-  files: ['Spec.js'],
-  browsers: ['PhantomJS'],
-  frameworks: ['jasmine'],
-  plugins: [
-    'karma-phantomjs-launcher',
-    'karma-jasmine'
-	]
+specs = broccoliTestem(specs, {
+  src_files: ['Spec.js'] // Files paths are relative to input tree
+  // Here any testem options
 });
+
 
 // html
 var html = noop('app', {

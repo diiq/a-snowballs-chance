@@ -13,7 +13,6 @@
   ],
   "dependencies": {
     "fabric": "~1.4.0",
-    "victor": "~0.2.6",
     "lodash": "~3.6.0"
   },
   "devDependencies": {},
