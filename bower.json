@@ -1,0 +1,21 @@
+{
+  "name": "fabric-game",
+  "description": "A platformer in fabric",
+  "homepage": "https://github.com/diiq/fabric-game",
+  "version": "0.0.0",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "build"
+  ],
+  "dependencies": {
+    "fabric": "~1.4.0",
+    "victor": "~0.2.6",
+    "lodash": "~3.6.0"
+  },
+  "devDependencies": {},
+  "overrides": {}
+}

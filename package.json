@@ -1,0 +1,31 @@
+{
+  "name": "fabric-game",
+  "description": "A platformer using fabric",
+  "version": "0.0.0",
+  "private": true,
+  "repository": "https://github.com/diiq/fabric-game",
+  "devDependencies": {
+    "bower": "^1.4.0",
+    "broccoli": "^0.15.3",
+    "broccoli-concat": "0.0.13",
+    "broccoli-fast-browserify": "^0.2.5",
+    "broccoli-filter": "^0.1.12",
+    "broccoli-karma-plugin": "^0.1.1",
+    "broccoli-merge-trees": "^0.2.1",
+    "broccoli-static-compiler": "^0.2.1",
+    "browser-sync": "^2.5.2",
+    "coffee-script": "^1.9.2",
+    "convert-source-map": "^1.0.0",
+    "debowerify": "^0.7.1",
+    "karma": "^0.12.31",
+    "karma-jasmine": "^0.3.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "lodash": "^3.6.0",
+    "node-sass": "^2.1.1"
+  },
+  "browserify": {
+    "transform": [
+      "debowerify"
+    ]
+  }
+}
