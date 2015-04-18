@@ -1,4 +1,3 @@
-intersect = require "../polygon/intersect"
 Light = require "./Light"
 Blind = require "../blind/Blind"
 Room = require "../room/Room"
@@ -28,10 +27,3 @@ describe "Light", ->
     points = @light.litPolygon(@blinds)
     # Four lines per blind, four rayCastingPoints per line:
     expect(points.length).toBe (4 * 4 * @blinds.length)
-
-  it "can be passed to polygon/intersect", ->
-    p1 = @light.litPolygon(@blinds)
-    p2 = @light2.litPolygon(@blinds)
-    intersection = intersect([p1, p2])
-    expect(intersection.length).toBe 1
-    # not sure how to test this honestly.

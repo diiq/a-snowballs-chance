@@ -55,3 +55,17 @@ module.exports = class Light
     )
 
     new fabric.Group rects
+
+
+# This is some sloppiness for playtesting.
+
+module.exports.moveLight = (light, steps) ->
+  light.move
+    x: light.location.x + light.velocity.x * steps
+    y: light.location.y + light.velocity.y * steps
+
+
+  if light.location.y > 500
+    light.velocity = {x: 0, y: -.05}
+  if light.location.y < 100
+    light.velocity = {x: 0, y: .05}
