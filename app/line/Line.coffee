@@ -2,6 +2,7 @@ module.exports = class Line
   constructor: (@pointA, @pointB) ->
     @x = @pointA.x
     @y = @pointA.y
+    # Non-normalized derivatives w/ respect to T
     @dx = @pointB.x - @pointA.x
     @dy = @pointB.y - @pointA.y
 
