@@ -6,8 +6,11 @@
 
 fabric = require("fabric").fabric
 
+_ = require "lodash"
+
 canvas = require "../canvas"
 Line = require "../line/Line"
+
 
 module.exports = class Blind
   constructor: (@pointA, @pointB) ->
@@ -48,3 +51,7 @@ module.exports = class Blind
         {x: @pointB.x, y: @pointB.y}
       )
     ]
+
+  rayCastingPoints: () ->
+    _.flatten _.map @lines(), (line) ->
+      line.rayCastingPoints()
