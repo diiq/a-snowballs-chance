@@ -7,6 +7,7 @@
 fabric = require("fabric").fabric
 
 canvas = require "../canvas"
+Line = require "../line/Line"
 
 module.exports = class Blind
   constructor: (@pointA, @pointB) ->
@@ -24,3 +25,26 @@ module.exports = class Blind
       left: @left
       width: @width
       height: @height
+
+  lines: () ->
+    [
+      new Line(
+        {x: @pointA.x, y: @pointA.y},
+        {x: @pointA.x, y: @pointB.y}
+      ),
+
+      new Line(
+        {x: @pointB.x, y: @pointA.y},
+        {x: @pointB.x, y: @pointB.y}
+      ),
+
+      new Line(
+        {x: @pointA.x, y: @pointA.y},
+        {x: @pointB.x, y: @pointA.y}
+      ),
+
+      new Line(
+        {x: @pointA.x, y: @pointB.y},
+        {x: @pointB.x, y: @pointB.y}
+      )
+    ]
