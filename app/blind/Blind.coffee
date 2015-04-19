@@ -12,10 +12,11 @@ Line = require "../line/Line"
 
 
 module.exports = class Blind
-  constructor: (pointA, pointB) ->
+  constructor: (pointA, pointB, constraint) ->
     @location = pointA
     @width = pointB.x - pointA.x
     @height = pointB.y - pointA.y
+    @constraint = constraint or {x: 0, y: 0}
 
   top: -> @location.y
   left: -> @location.x

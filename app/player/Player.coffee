@@ -69,6 +69,11 @@ module.exports = class Player
 
     block = @checkCollisions(blocks)
     if block
+      @location = oldLocation
+      @velocity =
+        x: block.constraint.x * @velocity.x
+        y: block.constraint.y * @velocity.y
       block.location.x += @velocity.x * steps
       block.location.y += @velocity.y * steps
-#      @location = oldLocation
+      @location.x += @velocity.x * steps
+      @location.y += @velocity.y * steps
