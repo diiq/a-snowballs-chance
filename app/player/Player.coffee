@@ -10,11 +10,13 @@ module.exports = class Player
   constructor: (@location) ->
     @velocity = {x: 0, y: 0}
     @health = 100
+    @isCircle = true
 
   top: -> @location.y - 2
   left: -> @location.x - 2
   bottom: -> @location.y + @health / 2 + 2
   right: -> @location.x + @health / 2 + 2
+  radius: -> @health / 4 + 2
   center: ->
     x: @location.x + @health / 4
     y: @location.y+ @health / 4
