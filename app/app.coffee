@@ -53,8 +53,9 @@ setInterval ->
     , 3000
 
   if world.goal.win(world.player)
+    points += Math.round(world.player.health)
     setWorld(worldInd + 1)
-    points += world.player.health
+
 
 
   # HAHAHAHAHAHAAAAXXXXXX

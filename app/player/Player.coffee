@@ -74,12 +74,12 @@ module.exports = class Player
     if block
       @location = oldLocation
       constraint = block.constraint
-      if constraint.x and block.location.x < constraint.x.max
+      if constraint.x and block.location.x < constraint.x.max and block.location.x > constraint.x.min
         @velocity.x = constraint.x.ease * @velocity.x
       else
         @velocity.x = 0
 
-      if constraint.y and block.location.y < constraint.y.max
+      if constraint.y and block.location.y < constraint.y.max and block.location.y > constraint.y.min
         @velocity.y = constraint.y.ease * @velocity.y
       else
         @velocity.y = 0
