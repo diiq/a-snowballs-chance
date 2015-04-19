@@ -10,7 +10,7 @@ now = -> (new Date()).getTime()
 # The player
 player = new Player
   x: 40
-  y: 510
+  y: 490
 
 
 # The Game loop
@@ -23,14 +23,14 @@ setInterval ->
   # If you change tabs, steps can be a bajillion. Don't let that
   # happen.
   if steps > 500
-    lastStep = thisStep
+    #lastStep = thisStep
     return
 
   # hax for playtesting
   Light.moveLight(world.light, steps)
 
   # move the player
-  # somfin
+  player.move(steps, world.blinds)
   player.updateHealth history.lightHistory.evilPolys(), steps
 
   # REDRAW!!
@@ -41,4 +41,4 @@ setInterval ->
   canvas.renderAll()
 
   lastStep = thisStep
-, 50
+, 10

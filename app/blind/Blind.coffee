@@ -12,40 +12,53 @@ Line = require "../line/Line"
 
 
 module.exports = class Blind
-  constructor: (@pointA, @pointB) ->
-    @top = Math.min(@pointA.y, @pointB.y)
-    @left = Math.min(@pointA.x, @pointB.x)
-    @width = Math.abs(@pointA.x - @pointB.x) || 3
-    @height = Math.abs(@pointA.y - @pointB.y) || 3
+  constructor: (pointA, pointB) ->
+    @location = pointA
+    @width = pointB.x - pointA.x
+    @height = pointB.y - pointA.y
+
+  top: -> @location.y
+  left: -> @location.x
+  bottom: -> @location.y + @height
+  right: -> @location.x + @width
+
 
   fabricObject: () ->
     rect = new fabric.Rect
       fill: '#bbaacc'
-      top: @top
-      left: @left
+      top: @top()
+      left: @left()
       width: @width
       height: @height
+
+  boundingBox: () ->
+    [
+      @location,
+      {x: @left, y: @bottom()},
+      {x: @right(), y: @bottom()}
+      {x: @right(), y: @top()}
+    ]
 
   lines: () ->
     [
       new Line(
-        {x: @pointA.x, y: @pointA.y},
-        {x: @pointA.x, y: @pointB.y}
+        {x: @left(), y: @top()},
+        {x: @left(), y: @bottom()}
       ),
 
       new Line(
-        {x: @pointB.x, y: @pointA.y},
-        {x: @pointB.x, y: @pointB.y}
+        {x: @right(), y: @top()},
+        {x: @right(), y: @bottom()}
       ),
 
       new Line(
-        {x: @pointA.x, y: @pointA.y},
-        {x: @pointB.x, y: @pointA.y}
+        {x: @right(), y: @top()}
+        {x: @left(), y: @top()},
       ),
 
       new Line(
-        {x: @pointA.x, y: @pointB.y},
-        {x: @pointB.x, y: @pointB.y}
+        {x: @right(), y: @bottom()}
+        {x: @left(), y: @bottom()},
       )
     ]
 

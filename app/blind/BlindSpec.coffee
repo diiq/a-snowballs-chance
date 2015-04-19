@@ -4,20 +4,20 @@ describe "Blind", ->
   beforeEach ->
     @blind = new Blind(
       {x: 100, y: 2},
-      {x: 100, y: 200}
+      {x: 103, y: 200}
     )
 
-  it "has a pointA", ->
-    expect(@blind.pointA.x).toEqual 100
-
-  it "has a pointB", ->
-    expect(@blind.pointB.y).toEqual 200
-
   it "has a top", ->
-    expect(@blind.top).toEqual 2
+    expect(@blind.top()).toEqual 2
 
   it "has a left", ->
-    expect(@blind.left).toEqual 100
+    expect(@blind.left()).toEqual 100
+
+  it "has a bottom", ->
+    expect(@blind.bottom()).toEqual 200
+
+  it "has a right", ->
+    expect(@blind.right()).toEqual 103
 
   it "has a width", ->
     expect(@blind.width).toEqual 3
