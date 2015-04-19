@@ -10,8 +10,6 @@ module.exports = class Player
   constructor: (@location) ->
     @velocity = {x: 0, y: 0}
     @health = 100
-    @width = 25
-    @height = 25
 
   top: -> @location.y - 2
   left: -> @location.x - 2
