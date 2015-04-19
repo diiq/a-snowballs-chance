@@ -66,3 +66,4 @@ module.exports =
   drawTop: drawWorldTop
   moveStuff: moveStuff
   player: player
+  reset: ->

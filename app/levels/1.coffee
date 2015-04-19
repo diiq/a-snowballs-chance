@@ -7,68 +7,82 @@ Light = require "../light/Light"
 Goal = require "../goal/Goal"
 Player = require "../player/Player"
 
+light = null
+blinds = null
+goal = null
+player = null
+rails = null
+exports = {}
 
-room = new Room(
-  {x: -10, y: -10},
-  {x: 610, y: 610}
-)
-
-#################
-#  The WORLD
-#################
-
-blinds = [
-  new Blind(
-    {x: 200, y: 200},
-    {x: 203, y: 300},
-    constraint: {x: 0, y: 1}
-  ),
-  new Blind(
-    {x: 100, y: 350},
-    {x: 300, y: 500},
-    constraint: {x: 1, y: 0}
+reset = ->
+  room = new Room(
+    {x: -10, y: -10},
+    {x: 610, y: 610}
   )
-  new Blind(
-    {x: 300, y: 100},
-    {x: 400, y: 150},
-    constraint: {x: 1, y: 0}
-  )
-]
 
-blinds = blinds.concat room.walls
+  #################
+  #  The WORLD
+  #################
 
-rails = [
-  new Rail 'x', 350
-  new Rail 'x', 500
-  new Rail 'y', 200
-  new Rail 'y', 203
-  new Rail 'x', 100
-  new Rail 'x', 150
-]
+  blinds = [
+    new Blind(
+      {x: 200, y: 200},
+      {x: 203, y: 300},
+      constraint: {x: 0, y: 1}
+    ),
+    new Blind(
+      {x: 100, y: 350},
+      {x: 300, y: 500},
+      constraint: {x: 1, y: 0}
+    )
+    new Blind(
+      {x: 300, y: 100},
+      {x: 400, y: 150},
+      constraint: {x: 1, y: 0}
+    )
+  ]
 
-#################
-#  The LIGHTS
-#################
+  blinds = blinds.concat room.walls
 
-light = new Light({x: 550, y: 300})
-light.velocity = {x: 0, y: .05}
+  rails = [
+    new Rail 'x', 350
+    new Rail 'x', 500
+    new Rail 'y', 200
+    new Rail 'y', 203
+    new Rail 'x', 100
+    new Rail 'x', 150
+  ]
 
+  #################
+  #  The LIGHTS
+  #################
 
-#################
-#  The PLAYER
-#################
-
-player = new Player
-  x: 40
-  y: 490
-
-#################
-#  The GOAL
-#################
-
-goal = new Goal {x: 560, y: 10}
+  light = new Light({x: 550, y: 300})
+  light.velocity = {x: 0, y: .05}
 
 
+  #################
+  #  The PLAYER
+  #################
+
+  player = new Player
+    x: 40
+    y: 490
+
+  #################
+  #  The GOAL
+  #################
+
+  goal = new Goal {x: 560, y: 10}
+
+  exports.light = light
+  exports.blinds = blinds
+  exports.goal = goal
+  exports.drawBottom = drawWorldBottom
+  exports.drawTop = drawWorldTop
+  exports.moveStuff = moveStuff
+  exports.player = player
+  exports.reset = reset
 
 ##########################
 #  Updating and Drawing
@@ -93,12 +107,6 @@ drawWorldTop = (canvas) ->
   canvas.add goal.fabricObject()
   _.each blinds, (b) -> canvas.add(b.fabricObject())
 
+reset()
 
-module.exports =
-  light: light
-  blinds: blinds
-  goal: goal
-  drawBottom: drawWorldBottom
-  drawTop: drawWorldTop
-  moveStuff: moveStuff
-  player: player
+module.exports = exports

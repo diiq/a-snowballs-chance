@@ -14,6 +14,7 @@ worldInd = null
 setWorld = (ind) ->
   worldInd = ind
   world = worlds.list[ind]
+  world.reset()
   history.setWorld(world)
 
 setWorld(worlds.intro)
@@ -43,6 +44,9 @@ setInterval ->
 
   if dead
     setWorld(worlds.dead)
+    setTimeout ->
+      setWorld(worlds.first)
+    , 3000
 
   if world.goal.win(world.player)
     setWorld(worldInd + 1)

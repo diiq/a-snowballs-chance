@@ -14,6 +14,13 @@
   <body>
     <div class="container">
       <canvas id="main-canvas"></canvas>
+
+      <audio autoplay loop id="audio">
+        <source src="music.ogg" type="audio/ogg">
+          Your browser does not support the audio element.
+      </audio>
+
+      <div class="mute" onclick="document.getElementById('audio').muted = !document.getElementById('audio').muted;">audio on/off</div>
     </div>
     <script type="text/javascript" src="app.js"></script>
   </body>

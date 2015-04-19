@@ -38,6 +38,20 @@ var html = noop('app', {
   destDir: '/'
 });
 
+// html
+var music = noop('app', {
+  files: ['**/*.ogg'],
+  srcDir: '/',
+  destDir: '/'
+});
+
+// html
+var imgs = noop('app', {
+  files: ['**/*.png'],
+  srcDir: '/',
+  destDir: '/'
+});
+
 // css
 var css = sass('app', {
   sourceMap: true,
@@ -60,7 +74,7 @@ if (env == 'development') {
   });
 
   var sync = new BrowserSync(
-    merge([bundledJS, html, css], {
+    merge([bundledJS, html, css, music, imgs], {
       overwrite: true
     }));
 
@@ -70,5 +84,5 @@ if (env == 'development') {
 } else {
   js = uglifyJavaScript(bundledJS);
 
-  module.exports = merge([js, html, css]);
+  module.exports = merge([js, html, css, music, imgs]);
 }
