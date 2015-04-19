@@ -19,11 +19,16 @@ room = new Room(
 #################
 
 blinds = room.walls
-text = new fabric.Text(
-  'you melted and are dead.\nso sad.',
-  left: 100,
-  top: 100
-)
+
+message = null
+fabric.Image.fromURL 'levels/dead.png', (img) ->
+  img.scale .5
+  img.set
+    top: 220
+    left: 30
+
+  message = img
+
 
 #################
 #  The LIGHTS
@@ -56,7 +61,7 @@ moveStuff = (steps) ->
 drawWorldBottom = (canvas) ->
 
 drawWorldTop = (canvas) ->
-  canvas.add text
+  canvas.add message
 
 module.exports =
   light: light

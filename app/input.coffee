@@ -1,10 +1,18 @@
+_ = require "lodash"
+
+
 keyMap =
   enter: 13
   left: 37
   right: 39
   up: 38
   down: 40
+  w: 87
+  a: 65
+  s: 83
+  d: 68
   space: 32
+  enter: 13
 
 keysPressed = []
 
@@ -18,7 +26,11 @@ window.addEventListener "keyup", (e) ->
 
 isKeyDown = (name) ->
   code = keyMap[name]
-  return keysPressed[code]
+  keysPressed[code]
+
+anyKeysDown = (names...) ->
+  _.any names, isKeyDown
 
 module.exports =
   isKeyDown: isKeyDown
+  anyKeysDown: anyKeysDown

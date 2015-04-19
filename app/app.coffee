@@ -14,8 +14,10 @@ points = 0
 lastStep = now()
 world = null
 worldInd = null
+lastWorldInd = null
 
 setWorld = (ind) ->
+  lastWorldInd = worldInd
   worldInd = ind
   world = worlds.list[ind]
   world.reset()
@@ -49,19 +51,21 @@ setInterval ->
   if dead
     setWorld(worlds.dead)
     setTimeout ->
-      setWorld(worlds.first)
-    , 3000
+      if worldInd == worlds.dead
+        setWorld(lastWorldInd)
+    , 7000
 
   if world.goal.win(world.player)
     points += Math.round(world.player.health)
     setWorld(worldInd + 1)
 
-
-
   # HAHAHAHAHAHAAAAXXXXXX
 
-  if worldInd == worlds.intro and input.isKeyDown "space"
+  if worldInd == worlds.intro and input.anyKeysDown "space", "enter"
     setWorld(worlds.first)
+
+  if worldInd == worlds.dead and input.anyKeysDown "space", "enter"
+    setWorld(lastWorldInd)
 
   # REDRAW!!
 
@@ -71,10 +75,10 @@ setInterval ->
   canvas.add world.player.fabricObject()
   world.drawTop(canvas)
 
-  score = new fabric.Text "#{points}",
+  score = new fabric.Text "Score: #{points}",
     fill: "#7c8"
     top: 580
-    left: 550
+    left: 500
   score.setFontSize 12
   score.setFontFamily "Courier New"
 

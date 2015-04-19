@@ -47,6 +47,7 @@ module.exports = class Player
     if @health < 0
       return true
 
+
     false
 
   setVelocity: () ->
@@ -54,13 +55,13 @@ module.exports = class Player
       x: @velocity.x * .75,
       y: @velocity.y * .75
 
-    if input.isKeyDown "up"
+    if input.anyKeysDown "up", "w"
       @velocity.y = -.1
-    if input.isKeyDown "down"
+    if input.anyKeysDown "down", "s"
       @velocity.y = .1
-    if input.isKeyDown "left"
+    if input.anyKeysDown "left", "a"
       @velocity.x = -.1
-    if input.isKeyDown "right"
+    if input.anyKeysDown "right", "d"
       @velocity.x = .1
 
   checkCollisions: (blocks) ->
