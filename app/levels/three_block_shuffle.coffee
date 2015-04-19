@@ -77,8 +77,8 @@ reset = ->
   #################
 
   player = new Player
-    x: 40
-    y: 490
+    x: 20
+    y: 430
 
   #################
   #  The GOAL

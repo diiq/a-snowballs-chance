@@ -8,6 +8,6 @@ list = [
 
 module.exports =
   dead: list.length - 1
-  intro: 2
-  first: 2
+  intro: 0
+  first: 1
   list: list

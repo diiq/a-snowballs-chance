@@ -1,3 +1,5 @@
+fabric = require("fabric").fabric
+
 canvas = require "./canvas"
 Light = require "./light/Light"
 history = require "./history-of-the-world"
@@ -68,7 +70,14 @@ setInterval ->
   canvas.add world.player.fabricObject()
   world.drawTop(canvas)
 
+  score = new fabric.Text "#{points}",
+    fill: "#7c8"
+    top: 580
+    left: 550
+  score.setFontSize 12
+  score.setFontFamily "Courier New"
 
+  canvas.add score
   canvas.renderAll()
 
   lastStep = thisStep
