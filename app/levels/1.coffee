@@ -2,6 +2,7 @@ _ = require "lodash"
 
 Room = require "../room/Room"
 Blind = require "../blind/Blind"
+Rail = require "../rail/Rail"
 Light = require "../light/Light"
 Goal = require "../goal/Goal"
 Player = require "../player/Player"
@@ -20,7 +21,7 @@ blinds = [
   new Blind(
     {x: 200, y: 200},
     {x: 203, y: 300},
-    constraint: {x: 1, y: 0}
+    constraint: {x: 0, y: 1}
   ),
   new Blind(
     {x: 100, y: 350},
@@ -35,6 +36,15 @@ blinds = [
 ]
 
 blinds = blinds.concat room.walls
+
+rails = [
+  new Rail 'x', 350
+  new Rail 'x', 500
+  new Rail 'y', 200
+  new Rail 'y', 203
+  new Rail 'x', 100
+  new Rail 'x', 150
+]
 
 #################
 #  The LIGHTS
@@ -75,17 +85,20 @@ moveStuff = (steps) ->
   if light.location.y < 100
     light.velocity = {x: 0, y: .05}
 
+drawWorldBottom = (canvas) ->
+  _.each rails, (b) -> canvas.add(b.fabricObject())
 
-# Drawing
-drawWorld = (canvas) ->
+drawWorldTop = (canvas) ->
   canvas.add light.visibleFabricPoly(blinds)
   canvas.add goal.fabricObject()
   _.each blinds, (b) -> canvas.add(b.fabricObject())
+
 
 module.exports =
   light: light
   blinds: blinds
   goal: goal
-  draw: drawWorld
+  drawBottom: drawWorldBottom
+  drawTop: drawWorldTop
   moveStuff: moveStuff
   player: player

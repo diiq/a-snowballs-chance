@@ -1,7 +1,8 @@
 module.exports =
-  dead: 5
+  dead: 2
   intro: 0
-  win: 11
   list: [
-    require "./levels/1"
+    require("./levels/1"),
+    require("./levels/win")
+    require("./levels/lose")
   ]

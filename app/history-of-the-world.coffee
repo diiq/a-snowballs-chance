@@ -8,6 +8,7 @@ deepcopy = require "deepcopy"
 
 world = null
 setWorld = (newWorld) ->
+  history.polys = []
   world = newWorld
 
 history = new LightHistory()

@@ -7,6 +7,8 @@ var coffeescript = require('./tasks/coffee');
 var sass = require('./tasks/sass');
 var BrowserSync = require('./tasks/broccoli-browser-sync');
 var broccoliTestem = require('broccoli-testem-plugin');
+var env = require('broccoli-env').getEnv();
+var uglifyJavaScript = require('broccoli-uglify-js');
 
 // JS
 
@@ -26,11 +28,6 @@ var specs = browserify(js, {
       entryPoints: ['**/*Spec.js']
     }
   }
-});
-
-specs = broccoliTestem(specs, {
-  src_files: ['Spec.js'] // Files paths are relative to input tree
-  // Here any testem options
 });
 
 
@@ -55,11 +52,23 @@ css = concat(css, {
 });
 
 // Browser-sync
-var sync = new BrowserSync(
+
+if (env == 'development') {
+  specs = broccoliTestem(specs, {
+    src_files: ['Spec.js'] // Files paths are relative to input tree
+    // Here any testem options
+  });
+
+  var sync = new BrowserSync(
     merge([bundledJS, html, css], {
       overwrite: true
     }));
 
 
-// merge js, css and public file trees, and export them
-module.exports = merge([specs, sync]);
+  // merge js, css and public file trees, and export them
+  module.exports = merge([specs, sync]);
+} else {
+  js = uglifyJavaScript(bundledJS);
+
+  module.exports = merge([js, html, css]);
+}

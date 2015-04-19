@@ -13,7 +13,6 @@ Line = require "../line/Line"
 
 module.exports = class Light
   constructor: (@location) ->
-    @opacity = .125
 
   move: (@location) ->
 
@@ -43,7 +42,7 @@ module.exports = class Light
     points = @litPolygon(blinds)
     rects = [new fabric.Polygon deepcopy(points),
       fill: '#ffe'
-      opacity: @opacity
+      opacity: .125
 
     ]
 

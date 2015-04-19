@@ -1,12 +1,7 @@
 fabric = require("fabric").fabric
-_ = require "lodash"
-
-inside = require "../polygon/inside"
 intersecting = require "../polygon/intersecting"
-input = require "../input"
 
-
-module.exports = class Player
+module.exports = class Goal
   constructor: (@location) ->
     @width = 25
     @height = 25
@@ -25,3 +20,6 @@ module.exports = class Player
       height: @height
       strokeWidth: 5
       stroke: "#798"
+
+  win: (player) ->
+    intersecting player, this
