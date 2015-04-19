@@ -1,18 +1,20 @@
 _ = require "lodash"
 
 LightHistory = require "./light/LightHistory"
-world = require "./world"
 now = -> (new Date()).getTime()
 
 fabric = require("fabric").fabric
 deepcopy = require "deepcopy"
 
+world = null
+setWorld = (newWorld) ->
+  world = newWorld
 
 history = new LightHistory()
 lastStep = now()
 lastPoly = null
 recordLightHistory = () ->
-  history.gc(5000)
+  history.gc(3000)
   if lastPoly
     lastPoly.ended()
   lastPoly = history.addPoly world.light.litPolygon(world.blinds)
@@ -24,8 +26,9 @@ drawLightHistory = (canvas) ->
   _.each ps, (points) ->
     canvas.add new fabric.Polygon deepcopy(points),
       fill: '#f00'
-      opacity: .05
+      opacity: .04
 
 module.exports =
   lightHistory: history
   drawLightHistory: drawLightHistory
+  setWorld: setWorld

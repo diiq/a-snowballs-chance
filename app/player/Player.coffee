@@ -13,36 +13,41 @@ module.exports = class Player
     @width = 25
     @height = 25
 
-  top: -> @location.y
-  left: -> @location.x
-  bottom: -> @location.y + @height
-  right: -> @location.x + @width
+  top: -> @location.y - 2
+  left: -> @location.x - 2
+  bottom: -> @location.y + @health / 2 + 2
+  right: -> @location.x + @health / 2 + 2
+  center: ->
+    x: @location.x + @health / 4
+    y: @location.y+ @health / 4
 
   fabricObject: () ->
-    rect = new fabric.Rect
-      fill: '#798'
+    circ = new fabric.Circle
+      fill: '#adf'
       top: @location.y
       left: @location.x
-      width: @width
-      height: @height
+      radius: Math.max(@health / 4, 0)
+      strokeWidth: 2
+      stroke: "#fff"
 
-    healthBar = new fabric.Rect
-      fill: '#7c9'
-      top: 570
-      left: 480
-      width: @health
-      height: 10
-
-    new fabric.Group [rect, healthBar]
-
-  updateHealth: (badPolys, steps) ->
+  updateHealth: (badPolys, veryBadPolys, steps) ->
+    # Penalize warmth
     badCount = _.filter(badPolys, (poly) =>
-      inside(@location, poly)
+      inside(@center(), poly)
     ).length
+    @health -= badCount * steps * .005
 
-    @health -= badCount * steps * .002
+    # Penalize direct heat
+    veryBadCount = _.filter(veryBadPolys, (poly) =>
+      inside(@center(), poly)
+    ).length
+    @health -= veryBadCount * steps * .1
+
+    # Dead yet?
     if @health < 0
-      alert "dead, yo"
+      return true
+
+    false
 
   setVelocity: () ->
     @velocity =

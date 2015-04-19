@@ -13,6 +13,7 @@ Line = require "../line/Line"
 
 module.exports = class Light
   constructor: (@location) ->
+    @opacity = .125
 
   move: (@location) ->
 
@@ -41,13 +42,13 @@ module.exports = class Light
   visibleFabricPoly: (blinds) ->
     points = @litPolygon(blinds)
     rects = [new fabric.Polygon deepcopy(points),
-      fill: '#fff'
-      opacity: .1
+      fill: '#ffe'
+      opacity: @opacity
 
     ]
 
     rects.push(new fabric.Rect
-        fill: '#fff'
+        fill: '#ffe'
         left: @location.x
         top: @location.y
         width: 10
@@ -55,17 +56,3 @@ module.exports = class Light
     )
 
     new fabric.Group rects
-
-
-# This is some sloppiness for playtesting.
-
-module.exports.moveLight = (light, steps) ->
-  light.move
-    x: light.location.x + light.velocity.x * steps
-    y: light.location.y + light.velocity.y * steps
-
-
-  if light.location.y > 500
-    light.velocity = {x: 0, y: -.05}
-  if light.location.y < 100
-    light.velocity = {x: 0, y: .05}

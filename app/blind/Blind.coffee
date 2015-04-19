@@ -12,11 +12,13 @@ Line = require "../line/Line"
 
 
 module.exports = class Blind
-  constructor: (pointA, pointB, constraint) ->
+  constructor: (pointA, pointB, {type, constraint, appearance}) ->
     @location = pointA
     @width = pointB.x - pointA.x
     @height = pointB.y - pointA.y
     @constraint = constraint or {x: 0, y: 0}
+    @type = type || 'blind'
+    @appearance = appearance || {fill: '#bbaacc'}
 
   top: -> @location.y
   left: -> @location.x
@@ -25,8 +27,7 @@ module.exports = class Blind
 
 
   fabricObject: () ->
-    rect = new fabric.Rect
-      fill: '#bbaacc'
+    rect = new fabric.Rect _.extend @appearance,
       top: @top()
       left: @left()
       width: @width

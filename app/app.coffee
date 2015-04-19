@@ -1,17 +1,17 @@
 canvas = require "./canvas"
-Player = require "./player/Player"
 Light = require "./light/Light"
-world = require "./world"
 history = require "./history-of-the-world"
+worlds = require "./worlds"
 
 now = -> (new Date()).getTime()
 
+world = null
 
-# The player
-player = new Player
-  x: 40
-  y: 490
+setWorld = (ind) ->
+  world = worlds.list[ind]
+  history.setWorld(world)
 
+setWorld(worlds.intro)
 
 # The Game loop
 
@@ -23,20 +23,25 @@ setInterval ->
   # If you change tabs, steps can be a bajillion. Don't let that
   # happen.
   if steps > 500
-    #lastStep = thisStep
+    lastStep = thisStep
     return
 
-  # hax for playtesting
-  Light.moveLight(world.light, steps)
+  # move the world
+  world.moveStuff(steps)
 
   # move the player
-  player.move(steps, world.blinds)
-  player.updateHealth history.lightHistory.evilPolys(), steps
+  world.player.move(steps, world.blinds)
+  if world.player.updateHealth(
+    history.lightHistory.evilPolys(),
+    [world.light.litPolygon(world.blinds)],
+    steps
+  )
+    setWorld(deadWorld)
 
   # REDRAW!!
   canvas.clear()
   history.drawLightHistory(canvas)
-  canvas.add player.fabricObject()
+  canvas.add world.player.fabricObject()
   world.draw(canvas)
   canvas.renderAll()
 
