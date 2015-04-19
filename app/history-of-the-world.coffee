@@ -27,7 +27,7 @@ drawLightHistory = (canvas) ->
   _.each ps, (points) ->
     canvas.add new fabric.Polygon deepcopy(points),
       fill: '#f00'
-      opacity: .04
+      opacity: .07
 
 module.exports =
   lightHistory: history

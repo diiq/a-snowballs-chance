@@ -2,7 +2,9 @@ canvas = require "./canvas"
 Light = require "./light/Light"
 history = require "./history-of-the-world"
 worlds = require "./worlds"
+input = require "./input"
 now = -> (new Date()).getTime()
+
 
 # Initialize some globals because globals are excellent software
 # practice
@@ -52,6 +54,12 @@ setInterval ->
     setWorld(worldInd + 1)
     points += world.player.health
 
+
+  # HAHAHAHAHAHAAAAXXXXXX
+
+  if worldInd == worlds.intro and input.isKeyDown "space"
+    setWorld(worlds.first)
+
   # REDRAW!!
 
   canvas.clear()
@@ -59,6 +67,8 @@ setInterval ->
   history.drawLightHistory(canvas)
   canvas.add world.player.fabricObject()
   world.drawTop(canvas)
+
+
   canvas.renderAll()
 
   lastStep = thisStep

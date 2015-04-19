@@ -26,22 +26,43 @@ reset = ->
 
   blinds = [
     new Blind(
-      {x: 100, y: 250},
-      {x: 250, y: 350},
+      {x: 200, y: 200},
+      {x: 203, y: 300},
+      constraint:
+        y:
+          ease: 1
+          min: 0
+          max: 340
+    ),
+    new Blind(
+      {x: 100, y: 350},
+      {x: 300, y: 500},
       constraint:
         x:
           ease: 1
           min: 0
-          max: 350
-    ),
+          max: 330
+    )
+    new Blind(
+      {x: 300, y: 100},
+      {x: 400, y: 150},
+      constraint:
+        x:
+          ease: 1
+          min: 0
+          max: 500
+    )
   ]
 
   blinds = blinds.concat room.walls
 
   rails = [
-    new Rail 'x', 250
     new Rail 'x', 350
-    new Rail 'y', 500
+    new Rail 'x', 500
+    new Rail 'y', 200
+    new Rail 'y', 203
+    new Rail 'x', 100
+    new Rail 'x', 150
   ]
 
   #################
@@ -51,20 +72,19 @@ reset = ->
   light = new Light({x: 550, y: 300})
   light.velocity = {x: 0, y: .05}
 
-
   #################
   #  The PLAYER
   #################
 
   player = new Player
-    x: 30
-    y: 275
+    x: 40
+    y: 490
 
   #################
   #  The GOAL
   #################
 
-  goal = new Goal {x: 400, y: 200}
+  goal = new Goal {x: 560, y: 10}
 
   exports.light = light
   exports.blinds = blinds
@@ -85,9 +105,9 @@ moveStuff = (steps) ->
     y: light.location.y + light.velocity.y * steps
 
 
-  if light.location.y > 320
+  if light.location.y > 500
     light.velocity = {x: 0, y: -.05}
-  if light.location.y < 280
+  if light.location.y < 160
     light.velocity = {x: 0, y: .05}
 
 drawWorldBottom = (canvas) ->

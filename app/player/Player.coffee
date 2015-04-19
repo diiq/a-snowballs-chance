@@ -73,10 +73,19 @@ module.exports = class Player
     block = @checkCollisions(blocks)
     if block
       @location = oldLocation
-      @velocity =
-        x: block.constraint.x * @velocity.x
-        y: block.constraint.y * @velocity.y
+      constraint = block.constraint
+      if constraint.x and block.location.x < constraint.x.max
+        @velocity.x = constraint.x.ease * @velocity.x
+      else
+        @velocity.x = 0
+
+      if constraint.y and block.location.y < constraint.y.max
+        @velocity.y = constraint.y.ease * @velocity.y
+      else
+        @velocity.y = 0
+
       block.location.x += @velocity.x * steps
       block.location.y += @velocity.y * steps
+
       @location.x += @velocity.x * steps
       @location.y += @velocity.y * steps

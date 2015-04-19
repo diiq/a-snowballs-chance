@@ -16,7 +16,7 @@ module.exports = class Blind
     @location = pointA
     @width = pointB.x - pointA.x
     @height = pointB.y - pointA.y
-    @constraint = constraint or {x: 0, y: 0}
+    @constraint = constraint or {x:{}, y:{}}
     @type = type || 'blind'
     @appearance = appearance || {fill: '#bbaacc'}
 
